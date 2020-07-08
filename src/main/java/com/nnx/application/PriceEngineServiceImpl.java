@@ -1,6 +1,7 @@
 package com.nnx.application;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import com.nnx.common.ProductCostCalculatorUtil;
+import com.nnx.controller.dto.CalculateProductCostRequest;
+import com.nnx.controller.dto.CalculateProductCostResponse;
 import com.nnx.controller.dto.ProductConfigDto;
 import com.nnx.controller.dto.ProvisionProductRequest;
 import com.nnx.controller.dto.ProvisionProductResponse;
@@ -53,8 +57,10 @@ public class PriceEngineServiceImpl implements PriceEngineService {
             product.setCreatedTime(new Timestamp(System.currentTimeMillis()));
         }
 
-        product.setCategory(StringUtils.hasText(provisionProductRequest.getName()) ? provisionProductRequest.getName() : product.getName());
-        product.setName(StringUtils.hasText(provisionProductRequest.getCategory()) ? provisionProductRequest.getCategory() : product.getCategory());
+        product.setName(StringUtils.hasText(provisionProductRequest.getName()) ? provisionProductRequest.getName()
+                : product.getName());
+        product.setCategory(StringUtils.hasText(provisionProductRequest.getCategory())
+                ? provisionProductRequest.getCategory() : product.getCategory());
         product.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
         product = productRepository.save(product);
 
@@ -64,16 +70,19 @@ public class PriceEngineServiceImpl implements PriceEngineService {
         if (productConfig == null) {
             Assert.isTrue(provisionProductRequest.getPricePerUnit() > 0, "Price per unit is unavailable");
             Assert.isTrue(provisionProductRequest.getPricePerCarton() > 0, "Price per carton is unavailable");
+            Assert.isTrue(provisionProductRequest.getUnitsPerCarton() > 0, "Units per carton is unavailable");
 
             productConfig = new ProductConfig();
             productConfig.setCreatedTime(new Timestamp(System.currentTimeMillis()));
             productConfig.setProductId(product.getProductId());
         }
 
-        productConfig
-                .setPricePerUnit((provisionProductRequest.getPricePerUnit() > 0) ? provisionProductRequest.getPricePerUnit() : productConfig.getPricePerUnit());
-        productConfig.setPricePerCarton(
-                (provisionProductRequest.getPricePerCarton() > 0) ? provisionProductRequest.getPricePerCarton() : productConfig.getPricePerCarton());
+        productConfig.setPricePerUnit((provisionProductRequest.getPricePerUnit() > 0)
+                ? provisionProductRequest.getPricePerUnit() : productConfig.getPricePerUnit());
+        productConfig.setPricePerCarton((provisionProductRequest.getPricePerCarton() > 0)
+                ? provisionProductRequest.getPricePerCarton() : productConfig.getPricePerCarton());
+        productConfig.setUnitsPerCarton((provisionProductRequest.getUnitsPerCarton() > 0)
+                ? provisionProductRequest.getUnitsPerCarton() : productConfig.getUnitsPerCarton());
         productConfig.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
         productConfig = productConfigRepository.save(productConfig);
 
@@ -82,8 +91,40 @@ public class PriceEngineServiceImpl implements PriceEngineService {
 
     @Override
     public List<ProvisionProductResponse> listProducts() {
-        // TODO Auto-generated method stub
-        return null;
+
+        List<ProvisionProductResponse> productResponseList = new ArrayList<ProvisionProductResponse>();
+
+        Iterable<Product> products = productRepository.findAll();
+
+        for (Product product : products) {
+            ProductConfig productConfig = productConfigRepository.findByProductId(product.getProductId());
+            ProvisionProductResponse productResponse = transformToProvisionProductResponse(product, productConfig);
+            productResponseList.add(productResponse);
+        }
+
+        return productResponseList;
+    }
+
+    @Override
+    public CalculateProductCostResponse calculateCost(CalculateProductCostRequest calculateProductCostRequest) {
+
+        Assert.notNull(calculateProductCostRequest, "Calculate product cost request is null");
+        Assert.isTrue(calculateProductCostRequest.getProductId() > 0, "Product id is not provided");
+
+        long numberOfProductUnits = calculateProductCostRequest.getNumberOfUnits();
+        Assert.isTrue(numberOfProductUnits > 0, "Number product units is not provided");
+
+        Optional<Product> productRecord = productRepository.findById(calculateProductCostRequest.getProductId());
+        if (productRecord.isEmpty() || productRecord.get() == null) {
+            throw new IllegalArgumentException("Product is unavailable");
+        }
+
+        Product product = productRecord.get();
+        ProductConfig productConfig = productConfigRepository.findByProductId(product.getProductId());
+
+        double calculatedTotalPrice = ProductCostCalculatorUtil.getCalculatedCost(numberOfProductUnits, productConfig);
+
+        return transformToCalculateProductCostResponse(calculatedTotalPrice, product);
     }
 
     private ProvisionProductResponse transformToProvisionProductResponse(Product product, ProductConfig productConfig) {
@@ -93,6 +134,7 @@ public class PriceEngineServiceImpl implements PriceEngineService {
         productConfigDto.setCreatedTime(productConfig.getCreatedTime());
         productConfigDto.setPricePerCarton(productConfig.getPricePerCarton());
         productConfigDto.setPricePerUnit(productConfig.getPricePerUnit());
+        productConfigDto.setUnitsPerCarton(productConfig.getUnitsPerCarton());
         productConfigDto.setProductId(productConfig.getProductId());
         productConfigDto.setUpdatedTime(productConfig.getUpdatedTime());
 
@@ -106,5 +148,16 @@ public class PriceEngineServiceImpl implements PriceEngineService {
         provisionProductResponse.setUpdatedTime(product.getUpdatedTime());
 
         return provisionProductResponse;
+    }
+
+    private CalculateProductCostResponse transformToCalculateProductCostResponse(double calculatedTotalPrice,
+            Product product) {
+
+        CalculateProductCostResponse calculateProductCostResponse = new CalculateProductCostResponse();
+        calculateProductCostResponse.setCalculatedTotalPrice(calculatedTotalPrice);
+        calculateProductCostResponse.setProductName(product.getName());
+        calculateProductCostResponse.setProductId(product.getProductId());
+
+        return calculateProductCostResponse;
     }
 }

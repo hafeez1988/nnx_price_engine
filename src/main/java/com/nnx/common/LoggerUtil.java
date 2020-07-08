@@ -34,7 +34,8 @@ public final class LoggerUtil {
     private static String encodeParameter(final String parameter) {
         String tempParameter = parameter;
         if (!StringUtils.isEmpty(tempParameter)) {
-            tempParameter = tempParameter.replace(LINE_FEED_CHARACTER, UNDERSCORE_CHARACTER).replace(CARRIAGE_RETURN_CHARACTER, UNDERSCORE_CHARACTER)
+            tempParameter = tempParameter.replace(LINE_FEED_CHARACTER, UNDERSCORE_CHARACTER)
+                    .replace(CARRIAGE_RETURN_CHARACTER, UNDERSCORE_CHARACTER)
                     .replace(TAB_CHARACTER, UNDERSCORE_CHARACTER);
         }
         return tempParameter;

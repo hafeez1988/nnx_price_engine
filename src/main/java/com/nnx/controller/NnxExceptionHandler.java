@@ -21,7 +21,8 @@ public class NnxExceptionHandler extends ResponseEntityExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(NnxExceptionHandler.class);
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public @ResponseBody ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException illegalArgumentException) {
+    public @ResponseBody ResponseEntity<?> handleIllegalArgumentException(
+            IllegalArgumentException illegalArgumentException) {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(NNX_STATUS_CODE_HEADER, "INVALID_ARGUMENTS_ERROR");

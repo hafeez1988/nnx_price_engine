@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class NnxPriceEngineApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(NnxPriceEngineApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(NnxPriceEngineApplication.class, args);
+    }
 
 }

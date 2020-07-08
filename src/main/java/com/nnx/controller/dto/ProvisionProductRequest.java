@@ -12,6 +12,8 @@ public class ProvisionProductRequest {
 
     private double pricePerCarton;
 
+    private long unitsPerCarton;
+
     public long getProductId() {
         return productId;
     }
@@ -50,5 +52,13 @@ public class ProvisionProductRequest {
 
     public void setPricePerCarton(double pricePerCarton) {
         this.pricePerCarton = pricePerCarton;
+    }
+
+    public long getUnitsPerCarton() {
+        return unitsPerCarton;
+    }
+
+    public void setUnitsPerCarton(long unitsPerCarton) {
+        this.unitsPerCarton = unitsPerCarton;
     }
 }

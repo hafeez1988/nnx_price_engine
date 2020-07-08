@@ -6,7 +6,6 @@ import static com.nnx.common.CommonConstants.NNX_STATUS_MESSAGE_DESCRIPTION;
 import static com.nnx.common.CommonConstants.NNX_STATUS_MESSAGE_HEADER;
 
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -24,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.nnx.application.PriceEngineService;
 import com.nnx.common.LoggerUtil;
+import com.nnx.controller.dto.CalculateProductCostRequest;
+import com.nnx.controller.dto.CalculateProductCostResponse;
 import com.nnx.controller.dto.ProvisionProductRequest;
 import com.nnx.controller.dto.ProvisionProductResponse;
 
@@ -51,7 +52,8 @@ public class PriceEngineController {
             @ResponseHeader(name = NNX_STATUS_MESSAGE_HEADER, description = NNX_STATUS_MESSAGE_DESCRIPTION, response = String.class)})})
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/product", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ProvisionProductResponse addOrUpdateProduct(@RequestBody ProvisionProductRequest provisionProductRequest, HttpServletRequest request) {
+    public @ResponseBody ProvisionProductResponse addOrUpdateProduct(
+            @RequestBody ProvisionProductRequest provisionProductRequest, HttpServletRequest request) {
 
         StopWatch stopWatch = new StopWatch();
 
@@ -59,7 +61,8 @@ public class PriceEngineController {
 
         LoggerUtil.putParametersToLog("ADD_OR_UPDATE_PRODUCT", request.getRemoteAddr());
 
-        ProvisionProductResponse provisionProductResponse = priceEngineService.provisionProduct(provisionProductRequest);
+        ProvisionProductResponse provisionProductResponse = priceEngineService
+                .provisionProduct(provisionProductRequest);
 
         stopWatch.stop();
 
@@ -68,7 +71,8 @@ public class PriceEngineController {
         return provisionProductResponse;
     }
 
-    @ApiOperation(value = "Retrieves all products details", notes = "Returns a list of all products and configuration details ", tags = {"retrieveProducts"})
+    @ApiOperation(value = "Retrieves all products details", notes = "Returns a list of all products and configuration details ", tags = {
+        "retrieveProducts"})
     @ApiResponses({@ApiResponse(code = 200, message = "Success"),
         @ApiResponse(code = 400, message = "Error with detail headers", responseHeaders = {
             @ResponseHeader(name = NNX_STATUS_CODE_HEADER, description = NNX_STATUS_CODE_DESCRPTION, response = String.class),
@@ -78,8 +82,7 @@ public class PriceEngineController {
             @ResponseHeader(name = NNX_STATUS_MESSAGE_HEADER, description = NNX_STATUS_MESSAGE_DESCRIPTION, response = String.class)})})
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/products", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<ProvisionProductResponse> retrieveProducts(@RequestBody ProvisionProductRequest provisionProductRequest,
-            HttpServletRequest request) {
+    public @ResponseBody List<ProvisionProductResponse> retrieveProducts(HttpServletRequest request) {
 
         StopWatch stopWatch = new StopWatch();
 
@@ -94,5 +97,35 @@ public class PriceEngineController {
         LoggerUtil.logInfo(logger, "Products retrieved successfully in {}", stopWatch);
 
         return productsListResponse;
+    }
+
+    @ApiOperation(value = "Calculate product cost", notes = "Calculates the product price per unit or carton ", tags = {
+        "calculateProductCost"})
+    @ApiResponses({@ApiResponse(code = 200, message = "Success"),
+        @ApiResponse(code = 400, message = "Error with detail headers", responseHeaders = {
+            @ResponseHeader(name = NNX_STATUS_CODE_HEADER, description = NNX_STATUS_CODE_DESCRPTION, response = String.class),
+            @ResponseHeader(name = NNX_STATUS_MESSAGE_HEADER, description = NNX_STATUS_MESSAGE_DESCRIPTION, response = String.class)}),
+        @ApiResponse(code = 500, message = "Internal Server Error with detail headers", responseHeaders = {
+            @ResponseHeader(name = NNX_STATUS_CODE_HEADER, description = NNX_STATUS_CODE_DESCRPTION, response = String.class),
+            @ResponseHeader(name = NNX_STATUS_MESSAGE_HEADER, description = NNX_STATUS_MESSAGE_DESCRIPTION, response = String.class)})})
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/product/price", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody CalculateProductCostResponse calculateProductCost(
+            @RequestBody CalculateProductCostRequest calculateProductCostRequest, HttpServletRequest request) {
+
+        StopWatch stopWatch = new StopWatch();
+
+        stopWatch.start();
+
+        LoggerUtil.putParametersToLog("CALCULATE_PRODUCT_COST", request.getRemoteAddr());
+
+        CalculateProductCostResponse calculateProductCostResponse = priceEngineService
+                .calculateCost(calculateProductCostRequest);
+
+        stopWatch.stop();
+
+        LoggerUtil.logInfo(logger, "Product cost calculated successfully in {}", stopWatch);
+
+        return calculateProductCostResponse;
     }
 }

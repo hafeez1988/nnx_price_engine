@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n   \"name\":\"Penguin-ears\",\n   \"category\":\"Jewellary\",\n   \"pricePerUnit\":8.75,\n   \"pricePerCarton\":175\n}",
+					"raw": "{\n   \"name\":\"Penguin-ears\",\n   \"category\":\"Jewellary\",\n   \"pricePerUnit\":8.75,\n   \"pricePerCarton\":175,\n   \"unitsPerCarton\": 20\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -29,6 +29,56 @@
 					"path": [
 						"nnxpriceengine",
 						"product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8050/nnxpriceengine/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8050",
+					"path": [
+						"nnxpriceengine",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Calculate Product Cost",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"productId\":1,\n   \"numberOfUnits\":25\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8050/nnxpriceengine/product/price",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8050",
+					"path": [
+						"nnxpriceengine",
+						"product",
+						"price"
 					]
 				}
 			},

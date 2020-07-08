@@ -1,7 +1,6 @@
 package com.nnx.domain;
 
 import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,6 +23,9 @@ public class ProductConfig {
 
     @Column(name = "price_per_carton")
     private double pricePerCarton;
+
+    @Column(name = "units_per_carton")
+    private long unitsPerCarton;
 
     @Column(name = "created_time")
     private Timestamp createdTime;
@@ -61,6 +63,14 @@ public class ProductConfig {
 
     public void setPricePerCarton(double pricePerCarton) {
         this.pricePerCarton = pricePerCarton;
+    }
+
+    public long getUnitsPerCarton() {
+        return unitsPerCarton;
+    }
+
+    public void setUnitsPerCarton(long unitsPerCarton) {
+        this.unitsPerCarton = unitsPerCarton;
     }
 
     public Timestamp getCreatedTime() {

@@ -12,6 +12,8 @@ public class ProductConfigDto {
 
     private double pricePerCarton;
 
+    private long unitsPerCarton;
+
     private Timestamp createdTime;
 
     private Timestamp updatedTime;
@@ -46,6 +48,14 @@ public class ProductConfigDto {
 
     public void setPricePerCarton(double pricePerCarton) {
         this.pricePerCarton = pricePerCarton;
+    }
+
+    public long getUnitsPerCarton() {
+        return unitsPerCarton;
+    }
+
+    public void setUnitsPerCarton(long unitsPerCarton) {
+        this.unitsPerCarton = unitsPerCarton;
     }
 
     public Timestamp getCreatedTime() {
