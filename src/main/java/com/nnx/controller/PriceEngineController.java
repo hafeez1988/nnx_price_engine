@@ -33,6 +33,11 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ResponseHeader;
 
+/**
+ * This is the main controller for 99X price engine.
+ * 
+ * @author hafeez
+ */
 @Controller
 public class PriceEngineController {
 
@@ -41,7 +46,7 @@ public class PriceEngineController {
     @Autowired
     private PriceEngineService priceEngineService;
 
-    @ApiOperation(value = "Provisions or updates a product detail", notes = "Creates or updates a product detail with its product configurations ", tags = {
+    @ApiOperation(value = "Provisions a product detail", notes = "Creates or updates product detail with its configurations ", tags = {
         "addOrUpdateProduct"})
     @ApiResponses({@ApiResponse(code = 200, message = "Success"),
         @ApiResponse(code = 400, message = "Error with detail headers", responseHeaders = {
@@ -53,15 +58,15 @@ public class PriceEngineController {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/product", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ProvisionProductResponse addOrUpdateProduct(
-            @RequestBody ProvisionProductRequest provisionProductRequest, HttpServletRequest request) {
+            @RequestBody final ProvisionProductRequest provisionProductRequest, final HttpServletRequest request) {
 
-        StopWatch stopWatch = new StopWatch();
+        final StopWatch stopWatch = new StopWatch();
 
         stopWatch.start();
 
         LoggerUtil.putParametersToLog("ADD_OR_UPDATE_PRODUCT", request.getRemoteAddr());
 
-        ProvisionProductResponse provisionProductResponse = priceEngineService
+        final ProvisionProductResponse provisionProductResponse = priceEngineService
                 .provisionProduct(provisionProductRequest);
 
         stopWatch.stop();
@@ -82,15 +87,15 @@ public class PriceEngineController {
             @ResponseHeader(name = NNX_STATUS_MESSAGE_HEADER, description = NNX_STATUS_MESSAGE_DESCRIPTION, response = String.class)})})
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/products", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<ProvisionProductResponse> retrieveProducts(HttpServletRequest request) {
+    public @ResponseBody List<ProvisionProductResponse> retrieveProducts(final HttpServletRequest request) {
 
-        StopWatch stopWatch = new StopWatch();
+        final StopWatch stopWatch = new StopWatch();
 
         stopWatch.start();
 
         LoggerUtil.putParametersToLog("RETRIEVE_PRODUCTS", request.getRemoteAddr());
 
-        List<ProvisionProductResponse> productsListResponse = priceEngineService.listProducts();
+        final List<ProvisionProductResponse> productsListResponse = priceEngineService.listProducts();
 
         stopWatch.stop();
 
@@ -111,15 +116,16 @@ public class PriceEngineController {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/product/price", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody CalculateProductCostResponse calculateProductCost(
-            @RequestBody CalculateProductCostRequest calculateProductCostRequest, HttpServletRequest request) {
+            @RequestBody final CalculateProductCostRequest calculateProductCostRequest,
+            final HttpServletRequest request) {
 
-        StopWatch stopWatch = new StopWatch();
+        final StopWatch stopWatch = new StopWatch();
 
         stopWatch.start();
 
         LoggerUtil.putParametersToLog("CALCULATE_PRODUCT_COST", request.getRemoteAddr());
 
-        CalculateProductCostResponse calculateProductCostResponse = priceEngineService
+        final CalculateProductCostResponse calculateProductCostResponse = priceEngineService
                 .calculateCost(calculateProductCostRequest);
 
         stopWatch.stop();

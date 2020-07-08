@@ -15,20 +15,29 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.nnx.common.LoggerUtil;
 
+/**
+ * The base exception handler for all the controller exception handling.
+ * 
+ * @author hafeez
+ */
 @ControllerAdvice
 public class NnxExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final Logger logger = LoggerFactory.getLogger(NnxExceptionHandler.class);
 
+    private final static String INVALID_ARGUMENTS_ERROR = "INVALID_ARGUMENTS_ERROR";
+
+    private final static String INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR";
+
     @ExceptionHandler(IllegalArgumentException.class)
     public @ResponseBody ResponseEntity<?> handleIllegalArgumentException(
-            IllegalArgumentException illegalArgumentException) {
+            final IllegalArgumentException illegalArgumentException) {
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(NNX_STATUS_CODE_HEADER, "INVALID_ARGUMENTS_ERROR");
+        final HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(NNX_STATUS_CODE_HEADER, INVALID_ARGUMENTS_ERROR);
         httpHeaders.add(NNX_STATUS_MESSAGE_HEADER, illegalArgumentException.getMessage());
 
-        ResponseEntity<?> responseEntity = new ResponseEntity<>(httpHeaders, HttpStatus.BAD_REQUEST);
+        final ResponseEntity<?> responseEntity = new ResponseEntity<>(httpHeaders, HttpStatus.BAD_REQUEST);
 
         LoggerUtil.logError(logger, "Illegal argument error: {}", illegalArgumentException);
 
@@ -36,13 +45,14 @@ public class NnxExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(IllegalStateException.class)
-    public @ResponseBody ResponseEntity<?> handleIllegalStateException(IllegalStateException illegalStateException) {
+    public @ResponseBody ResponseEntity<?> handleIllegalStateException(
+            final IllegalStateException illegalStateException) {
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(NNX_STATUS_CODE_HEADER, "INVALID_ARGUMENTS_ERROR");
+        final HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(NNX_STATUS_CODE_HEADER, INVALID_ARGUMENTS_ERROR);
         httpHeaders.add(NNX_STATUS_MESSAGE_HEADER, illegalStateException.getMessage());
 
-        ResponseEntity<?> responseEntity = new ResponseEntity<>(httpHeaders, HttpStatus.BAD_REQUEST);
+        final ResponseEntity<?> responseEntity = new ResponseEntity<>(httpHeaders, HttpStatus.BAD_REQUEST);
 
         LoggerUtil.logError(logger, "Illegal state error: {}", illegalStateException);
 
@@ -50,13 +60,13 @@ public class NnxExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public @ResponseBody ResponseEntity<?> handleInternalServerError(Exception exception) {
+    public @ResponseBody ResponseEntity<?> handleInternalServerError(final Exception exception) {
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(NNX_STATUS_CODE_HEADER, "INTERNAL_SERVER_ERROR");
+        final HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(NNX_STATUS_CODE_HEADER, INTERNAL_SERVER_ERROR);
         httpHeaders.add(NNX_STATUS_MESSAGE_HEADER, exception.getMessage());
 
-        ResponseEntity<?> responseEntity = new ResponseEntity<>(httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
+        final ResponseEntity<?> responseEntity = new ResponseEntity<>(httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
 
         LoggerUtil.logError(logger, "Internal server error: {}", exception);
 

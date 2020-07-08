@@ -2,6 +2,11 @@ package com.nnx.controller.dto;
 
 import java.sql.Timestamp;
 
+/**
+ * The product configuration dto class.
+ * 
+ * @author hafeez
+ */
 public class ProductConfigDto {
 
     private long configId;
@@ -22,7 +27,7 @@ public class ProductConfigDto {
         return configId;
     }
 
-    public void setConfigId(long configId) {
+    public void setConfigId(final long configId) {
         this.configId = configId;
     }
 
@@ -30,7 +35,7 @@ public class ProductConfigDto {
         return productId;
     }
 
-    public void setProductId(long productId) {
+    public void setProductId(final long productId) {
         this.productId = productId;
     }
 
@@ -38,7 +43,7 @@ public class ProductConfigDto {
         return pricePerUnit;
     }
 
-    public void setPricePerUnit(double pricePerUnit) {
+    public void setPricePerUnit(final double pricePerUnit) {
         this.pricePerUnit = pricePerUnit;
     }
 
@@ -46,7 +51,7 @@ public class ProductConfigDto {
         return pricePerCarton;
     }
 
-    public void setPricePerCarton(double pricePerCarton) {
+    public void setPricePerCarton(final double pricePerCarton) {
         this.pricePerCarton = pricePerCarton;
     }
 
@@ -54,7 +59,7 @@ public class ProductConfigDto {
         return unitsPerCarton;
     }
 
-    public void setUnitsPerCarton(long unitsPerCarton) {
+    public void setUnitsPerCarton(final long unitsPerCarton) {
         this.unitsPerCarton = unitsPerCarton;
     }
 
@@ -62,7 +67,7 @@ public class ProductConfigDto {
         return createdTime;
     }
 
-    public void setCreatedTime(Timestamp createdTime) {
+    public void setCreatedTime(final Timestamp createdTime) {
         this.createdTime = createdTime;
     }
 
@@ -70,7 +75,7 @@ public class ProductConfigDto {
         return updatedTime;
     }
 
-    public void setUpdatedTime(Timestamp updatedTime) {
+    public void setUpdatedTime(final Timestamp updatedTime) {
         this.updatedTime = updatedTime;
     }
 }

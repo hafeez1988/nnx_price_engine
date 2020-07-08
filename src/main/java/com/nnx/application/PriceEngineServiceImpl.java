@@ -21,6 +21,11 @@ import com.nnx.domain.ProductConfig;
 import com.nnx.infrastructure.ProductConfigRepository;
 import com.nnx.infrastructure.ProductRepository;
 
+/**
+ * The price engine service implementation class.
+ * 
+ * @author hafeez
+ */
 @Service
 public class PriceEngineServiceImpl implements PriceEngineService {
 
@@ -31,7 +36,7 @@ public class PriceEngineServiceImpl implements PriceEngineService {
     private ProductConfigRepository productConfigRepository;
 
     @Override
-    public ProvisionProductResponse provisionProduct(ProvisionProductRequest provisionProductRequest) {
+    public ProvisionProductResponse provisionProduct(final ProvisionProductRequest provisionProductRequest) {
 
         Assert.notNull(provisionProductRequest, "Provision product request is null");
 
@@ -39,7 +44,7 @@ public class PriceEngineServiceImpl implements PriceEngineService {
         ProductConfig productConfig = null;
 
         if (provisionProductRequest.getProductId() > 0) {
-            Optional<Product> productRecord = productRepository.findById(provisionProductRequest.getProductId());
+            final Optional<Product> productRecord = productRepository.findById(provisionProductRequest.getProductId());
             if (!productRecord.isEmpty() && productRecord.get() != null) {
                 product = productRecord.get();
                 productConfig = productConfigRepository.findByProductId(product.getProductId());
@@ -92,13 +97,14 @@ public class PriceEngineServiceImpl implements PriceEngineService {
     @Override
     public List<ProvisionProductResponse> listProducts() {
 
-        List<ProvisionProductResponse> productResponseList = new ArrayList<ProvisionProductResponse>();
+        final List<ProvisionProductResponse> productResponseList = new ArrayList<ProvisionProductResponse>();
 
-        Iterable<Product> products = productRepository.findAll();
+        final Iterable<Product> products = productRepository.findAll();
 
         for (Product product : products) {
-            ProductConfig productConfig = productConfigRepository.findByProductId(product.getProductId());
-            ProvisionProductResponse productResponse = transformToProvisionProductResponse(product, productConfig);
+            final ProductConfig productConfig = productConfigRepository.findByProductId(product.getProductId());
+            final ProvisionProductResponse productResponse = transformToProvisionProductResponse(product,
+                    productConfig);
             productResponseList.add(productResponse);
         }
 
@@ -106,30 +112,32 @@ public class PriceEngineServiceImpl implements PriceEngineService {
     }
 
     @Override
-    public CalculateProductCostResponse calculateCost(CalculateProductCostRequest calculateProductCostRequest) {
+    public CalculateProductCostResponse calculateCost(final CalculateProductCostRequest calculateProductCostRequest) {
 
         Assert.notNull(calculateProductCostRequest, "Calculate product cost request is null");
         Assert.isTrue(calculateProductCostRequest.getProductId() > 0, "Product id is not provided");
 
-        long numberOfProductUnits = calculateProductCostRequest.getNumberOfUnits();
+        final long numberOfProductUnits = calculateProductCostRequest.getNumberOfUnits();
         Assert.isTrue(numberOfProductUnits > 0, "Number product units is not provided");
 
-        Optional<Product> productRecord = productRepository.findById(calculateProductCostRequest.getProductId());
+        final Optional<Product> productRecord = productRepository.findById(calculateProductCostRequest.getProductId());
         if (productRecord.isEmpty() || productRecord.get() == null) {
             throw new IllegalArgumentException("Product is unavailable");
         }
 
-        Product product = productRecord.get();
-        ProductConfig productConfig = productConfigRepository.findByProductId(product.getProductId());
+        final Product product = productRecord.get();
+        final ProductConfig productConfig = productConfigRepository.findByProductId(product.getProductId());
 
-        double calculatedTotalPrice = ProductCostCalculatorUtil.getCalculatedCost(numberOfProductUnits, productConfig);
+        final double calculatedTotalPrice = ProductCostCalculatorUtil.getCalculatedCost(numberOfProductUnits,
+                productConfig);
 
         return transformToCalculateProductCostResponse(calculatedTotalPrice, product);
     }
 
-    private ProvisionProductResponse transformToProvisionProductResponse(Product product, ProductConfig productConfig) {
+    private ProvisionProductResponse transformToProvisionProductResponse(final Product product,
+            final ProductConfig productConfig) {
 
-        ProductConfigDto productConfigDto = new ProductConfigDto();
+        final ProductConfigDto productConfigDto = new ProductConfigDto();
         productConfigDto.setConfigId(productConfig.getConfigId());
         productConfigDto.setCreatedTime(productConfig.getCreatedTime());
         productConfigDto.setPricePerCarton(productConfig.getPricePerCarton());
@@ -138,7 +146,7 @@ public class PriceEngineServiceImpl implements PriceEngineService {
         productConfigDto.setProductId(productConfig.getProductId());
         productConfigDto.setUpdatedTime(productConfig.getUpdatedTime());
 
-        ProvisionProductResponse provisionProductResponse = new ProvisionProductResponse();
+        final ProvisionProductResponse provisionProductResponse = new ProvisionProductResponse();
         provisionProductResponse.setCategory(product.getCategory());
         provisionProductResponse.setCreatedTime(product.getCreatedTime());
         provisionProductResponse.setDeleted(product.isDeleted());
@@ -150,10 +158,10 @@ public class PriceEngineServiceImpl implements PriceEngineService {
         return provisionProductResponse;
     }
 
-    private CalculateProductCostResponse transformToCalculateProductCostResponse(double calculatedTotalPrice,
-            Product product) {
+    private CalculateProductCostResponse transformToCalculateProductCostResponse(final double calculatedTotalPrice,
+            final Product product) {
 
-        CalculateProductCostResponse calculateProductCostResponse = new CalculateProductCostResponse();
+        final CalculateProductCostResponse calculateProductCostResponse = new CalculateProductCostResponse();
         calculateProductCostResponse.setCalculatedTotalPrice(calculatedTotalPrice);
         calculateProductCostResponse.setProductName(product.getName());
         calculateProductCostResponse.setProductId(product.getProductId());

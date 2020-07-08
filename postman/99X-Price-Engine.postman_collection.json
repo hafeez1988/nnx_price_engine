@@ -6,6 +6,25 @@
 	},
 	"item": [
 		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8050/nnxpriceengine",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8050",
+					"path": [
+						"nnxpriceengine"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Provision Product",
 			"request": {
 				"method": "PUT",

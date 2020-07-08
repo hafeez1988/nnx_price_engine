@@ -7,6 +7,11 @@ import com.nnx.controller.dto.CalculateProductCostResponse;
 import com.nnx.controller.dto.ProvisionProductRequest;
 import com.nnx.controller.dto.ProvisionProductResponse;
 
+/**
+ * The price engine service interface.
+ * 
+ * @author hafeez
+ */
 public interface PriceEngineService {
 
     ProvisionProductResponse provisionProduct(ProvisionProductRequest provisionProductRequest);

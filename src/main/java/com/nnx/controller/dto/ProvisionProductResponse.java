@@ -2,6 +2,11 @@ package com.nnx.controller.dto;
 
 import java.sql.Timestamp;
 
+/**
+ * The provision product response class.
+ * 
+ * @author hafeez
+ */
 public class ProvisionProductResponse {
 
     private long productId;
@@ -22,7 +27,7 @@ public class ProvisionProductResponse {
         return productId;
     }
 
-    public void setProductId(long productId) {
+    public void setProductId(final long productId) {
         this.productId = productId;
     }
 
@@ -30,7 +35,7 @@ public class ProvisionProductResponse {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -38,7 +43,7 @@ public class ProvisionProductResponse {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(final String category) {
         this.category = category;
     }
 
@@ -46,7 +51,7 @@ public class ProvisionProductResponse {
         return deleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(final boolean deleted) {
         this.deleted = deleted;
     }
 
@@ -54,7 +59,7 @@ public class ProvisionProductResponse {
         return createdTime;
     }
 
-    public void setCreatedTime(Timestamp createdTime) {
+    public void setCreatedTime(final Timestamp createdTime) {
         this.createdTime = createdTime;
     }
 
@@ -62,7 +67,7 @@ public class ProvisionProductResponse {
         return updatedTime;
     }
 
-    public void setUpdatedTime(Timestamp updatedTime) {
+    public void setUpdatedTime(final Timestamp updatedTime) {
         this.updatedTime = updatedTime;
     }
 
@@ -70,7 +75,7 @@ public class ProvisionProductResponse {
         return productConfig;
     }
 
-    public void setProductConfig(ProductConfigDto productConfig) {
+    public void setProductConfig(final ProductConfigDto productConfig) {
         this.productConfig = productConfig;
     }
 }

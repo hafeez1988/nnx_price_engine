@@ -1,5 +1,10 @@
 package com.nnx.common;
 
+/**
+ * The common constants class.
+ * 
+ * @author hafeez
+ */
 public final class CommonConstants {
 
     public static final char CARRIAGE_RETURN_CHARACTER = '\r';

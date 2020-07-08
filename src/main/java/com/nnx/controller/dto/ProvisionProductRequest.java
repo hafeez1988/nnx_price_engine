@@ -1,5 +1,10 @@
 package com.nnx.controller.dto;
 
+/**
+ * The provision product request class.
+ * 
+ * @author hafeez
+ */
 public class ProvisionProductRequest {
 
     private long productId;
@@ -18,7 +23,7 @@ public class ProvisionProductRequest {
         return productId;
     }
 
-    public void setProductId(long productId) {
+    public void setProductId(final long productId) {
         this.productId = productId;
     }
 
@@ -26,7 +31,7 @@ public class ProvisionProductRequest {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -34,7 +39,7 @@ public class ProvisionProductRequest {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(final String category) {
         this.category = category;
     }
 
@@ -42,7 +47,7 @@ public class ProvisionProductRequest {
         return pricePerUnit;
     }
 
-    public void setPricePerUnit(double pricePerUnit) {
+    public void setPricePerUnit(final double pricePerUnit) {
         this.pricePerUnit = pricePerUnit;
     }
 
@@ -50,7 +55,7 @@ public class ProvisionProductRequest {
         return pricePerCarton;
     }
 
-    public void setPricePerCarton(double pricePerCarton) {
+    public void setPricePerCarton(final double pricePerCarton) {
         this.pricePerCarton = pricePerCarton;
     }
 
@@ -58,7 +63,7 @@ public class ProvisionProductRequest {
         return unitsPerCarton;
     }
 
-    public void setUnitsPerCarton(long unitsPerCarton) {
+    public void setUnitsPerCarton(final long unitsPerCarton) {
         this.unitsPerCarton = unitsPerCarton;
     }
 }

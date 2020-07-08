@@ -9,24 +9,29 @@ import org.slf4j.Logger;
 import org.slf4j.MDC;
 import org.springframework.util.StringUtils;
 
+/**
+ * The logger utility class will have generic logging functionalities.
+ * 
+ * @author hafeez
+ */
 public final class LoggerUtil {
 
     private LoggerUtil() {
     }
 
-    public static void logInfo(Logger logger, String message, Object... args) {
+    public static void logInfo(final Logger logger, final String message, final Object... args) {
         logger.info(message, args);
     }
 
-    public static void logError(Logger logger, String message, Object... args) {
+    public static void logError(final Logger logger, final String message, final Object... args) {
         logger.error(message, args);
     }
 
-    public static void logDebug(Logger logger, String message, Object... args) {
+    public static void logDebug(final Logger logger, final String message, final Object... args) {
         logger.debug(message, args);
     }
 
-    public static void putParametersToLog(String event, String originator) {
+    public static void putParametersToLog(final String event, final String originator) {
         MDC.put(LoggingKey.EVENT.name(), encodeParameter(event));
         MDC.put(LoggingKey.ORIGINATOR.name(), encodeParameter(originator));
     }

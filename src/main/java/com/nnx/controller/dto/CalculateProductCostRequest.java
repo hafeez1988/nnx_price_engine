@@ -1,5 +1,10 @@
 package com.nnx.controller.dto;
 
+/**
+ * The calculate product cost request class.
+ * 
+ * @author hafeez
+ */
 public class CalculateProductCostRequest {
 
     private long productId;
@@ -10,7 +15,7 @@ public class CalculateProductCostRequest {
         return productId;
     }
 
-    public void setProductId(long productId) {
+    public void setProductId(final long productId) {
         this.productId = productId;
     }
 
@@ -18,7 +23,7 @@ public class CalculateProductCostRequest {
         return numberOfUnits;
     }
 
-    public void setNumberOfUnits(long numberOfUnits) {
+    public void setNumberOfUnits(final long numberOfUnits) {
         this.numberOfUnits = numberOfUnits;
     }
 }
