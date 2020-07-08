@@ -1,6 +1,16 @@
 # 99X Price Engine
 *Author: Hafeez Marzuk*
 
+### Design flow
+
+#### Sequential flow diagram
+
+![Sequence Diagram](diagrams/nnx_price_engine_sd.jpg)
+
+#### Entity relationship diagram
+
+![ER Diagram](diagrams/nnx_price_engine_erd.jpg)
+
 ### Installation guide
 
 #### Pre-requisites
