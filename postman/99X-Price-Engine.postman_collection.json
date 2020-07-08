@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "da72cf2c-ce43-4bda-836d-aeabfe19e58b",
+		"name": "99X-Price-Engine",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Provision Product",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"name\":\"Penguin-ears\",\n   \"category\":\"Jewellary\",\n   \"pricePerUnit\":8.75,\n   \"pricePerCarton\":175\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8050/nnxpriceengine/product",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8050",
+					"path": [
+						"nnxpriceengine",
+						"product"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,34 +1,19 @@
-package com.nnx.domain;
+package com.nnx.controller.dto;
 
 import java.sql.Timestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+public class ProductConfigDto {
 
-@Entity
-public class ProductConfig {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "config_id")
     private long configId;
 
-    @Column(name = "product_id")
     private long productId;
 
-    @Column(name = "price_per_unit")
     private double pricePerUnit;
 
-    @Column(name = "price_per_carton")
     private double pricePerCarton;
 
-    @Column(name = "created_time")
     private Timestamp createdTime;
 
-    @Column(name = "updated_time")
     private Timestamp updatedTime;
 
     public long getConfigId() {
