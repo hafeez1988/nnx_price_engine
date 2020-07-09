@@ -67,7 +67,6 @@ public class PriceEngineServiceImpl implements PriceEngineService {
         product.setCategory(StringUtils.hasText(provisionProductRequest.getCategory())
                 ? provisionProductRequest.getCategory() : product.getCategory());
         product.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
-        product = productRepository.save(product);
 
         /*
          * Extracting product config data
@@ -82,7 +81,6 @@ public class PriceEngineServiceImpl implements PriceEngineService {
             productConfig = new ProductConfig();
             productConfig.setPricePerUnit(pricePerUnit);
             productConfig.setCreatedTime(new Timestamp(System.currentTimeMillis()));
-            productConfig.setProductId(product.getProductId());
         }
 
         productConfig.setPricePerCarton((provisionProductRequest.getPricePerCarton() > 0)
@@ -90,6 +88,9 @@ public class PriceEngineServiceImpl implements PriceEngineService {
         productConfig.setUnitsPerCarton((provisionProductRequest.getUnitsPerCarton() > 0)
                 ? provisionProductRequest.getUnitsPerCarton() : productConfig.getUnitsPerCarton());
         productConfig.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
+
+        product = productRepository.save(product);
+        productConfig.setProductId(product.getProductId());
         productConfig = productConfigRepository.save(productConfig);
 
         return transformToProvisionProductResponse(product, productConfig);
@@ -119,7 +120,7 @@ public class PriceEngineServiceImpl implements PriceEngineService {
         Assert.isTrue(calculateProductCostRequest.getProductId() > 0, "Product id is not provided");
 
         final long numberOfProductUnits = calculateProductCostRequest.getNumberOfUnits();
-        Assert.isTrue(numberOfProductUnits > 0, "Number product units is not provided");
+        Assert.isTrue(numberOfProductUnits > 0, "Number of product units is not provided");
 
         final Optional<Product> productRecord = productRepository.findById(calculateProductCostRequest.getProductId());
         if (productRecord.isEmpty() || productRecord.get() == null) {

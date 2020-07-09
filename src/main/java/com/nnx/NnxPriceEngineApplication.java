@@ -1,5 +1,6 @@
 package com.nnx;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import org.springframework.boot.SpringApplication;
@@ -33,9 +34,12 @@ public class NnxPriceEngineApplication {
         config.setAllowedOrigins(Collections.singletonList("http://localhost:8080"));
         config.setAllowedMethods(Collections.singletonList("*"));
         config.setAllowedHeaders(Collections.singletonList("*"));
+        config.setExposedHeaders(Arrays.asList("Access-Control-Allow-Headers",
+                "Access-Control-Allow-Headers, Accept, x-nnx-message, x-nnx-code"));
         source.registerCorsConfiguration("/**", config);
         FilterRegistrationBean bean = new FilterRegistrationBean<>(new CorsFilter(source));
         bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+
         return bean;
     }
 }
