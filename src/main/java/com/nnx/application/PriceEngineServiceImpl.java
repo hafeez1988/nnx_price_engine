@@ -73,17 +73,18 @@ public class PriceEngineServiceImpl implements PriceEngineService {
          * Extracting product config data
          */
         if (productConfig == null) {
-            Assert.isTrue(provisionProductRequest.getPricePerUnit() > 0, "Price per unit is unavailable");
             Assert.isTrue(provisionProductRequest.getPricePerCarton() > 0, "Price per carton is unavailable");
             Assert.isTrue(provisionProductRequest.getUnitsPerCarton() > 0, "Units per carton is unavailable");
 
+            double pricePerUnit = ProductCostCalculatorUtil.getCalculatedPricePerUnit(
+                    provisionProductRequest.getPricePerCarton(), provisionProductRequest.getUnitsPerCarton());
+
             productConfig = new ProductConfig();
+            productConfig.setPricePerUnit(pricePerUnit);
             productConfig.setCreatedTime(new Timestamp(System.currentTimeMillis()));
             productConfig.setProductId(product.getProductId());
         }
 
-        productConfig.setPricePerUnit((provisionProductRequest.getPricePerUnit() > 0)
-                ? provisionProductRequest.getPricePerUnit() : productConfig.getPricePerUnit());
         productConfig.setPricePerCarton((provisionProductRequest.getPricePerCarton() > 0)
                 ? provisionProductRequest.getPricePerCarton() : productConfig.getPricePerCarton());
         productConfig.setUnitsPerCarton((provisionProductRequest.getUnitsPerCarton() > 0)

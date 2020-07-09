@@ -13,8 +13,6 @@ public class ProvisionProductRequest {
 
     private String category;
 
-    private double pricePerUnit;
-
     private double pricePerCarton;
 
     private long unitsPerCarton;
@@ -41,14 +39,6 @@ public class ProvisionProductRequest {
 
     public void setCategory(final String category) {
         this.category = category;
-    }
-
-    public double getPricePerUnit() {
-        return pricePerUnit;
-    }
-
-    public void setPricePerUnit(final double pricePerUnit) {
-        this.pricePerUnit = pricePerUnit;
     }
 
     public double getPricePerCarton() {

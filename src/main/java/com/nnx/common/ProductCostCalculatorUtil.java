@@ -28,10 +28,10 @@ public final class ProductCostCalculatorUtil {
         double calculatedCost = 0;
 
         /*
-         * Calculate units without cartons and add 30% compensate
+         * Calculate units without cartons
          */
         if (numberOfRequiredCartons <= 0) {
-            calculatedCost = (numberOfProductUnits * pricePerUnit) * 1.3;
+            calculatedCost = numberOfProductUnits * pricePerUnit;
         }
 
         /*
@@ -51,5 +51,14 @@ public final class ProductCostCalculatorUtil {
         priceDecimalFormat.setRoundingMode(RoundingMode.UP);
 
         return Double.valueOf(priceDecimalFormat.format(calculatedCost));
+    }
+
+    public static double getCalculatedPricePerUnit(double pricePerCarton, long unitsPerCarton) {
+
+        priceDecimalFormat.setRoundingMode(RoundingMode.UP);
+
+        double calculatedPricePerUnit = (pricePerCarton / unitsPerCarton) * 1.3;
+
+        return Double.valueOf(priceDecimalFormat.format(calculatedPricePerUnit));
     }
 }

@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.nnx.common.JsonUtil;
+import com.nnx.common.ProductCostCalculatorUtil;
 import com.nnx.controller.dto.CalculateProductCostRequest;
 import com.nnx.controller.dto.CalculateProductCostResponse;
 import com.nnx.controller.dto.ProvisionProductRequest;
@@ -49,7 +50,6 @@ public class PriceEngineControllerTest {
         ProvisionProductRequest provisionProductRequest = new ProvisionProductRequest();
         provisionProductRequest.setName("test-product-1");
         provisionProductRequest.setCategory("category1");
-        provisionProductRequest.setPricePerUnit(8.75);
         provisionProductRequest.setPricePerCarton(175);
         provisionProductRequest.setUnitsPerCarton(20);
 
@@ -93,9 +93,9 @@ public class PriceEngineControllerTest {
     @Test
     public void testCalculateProductCost() throws Exception {
 
-        double pricePerUnit = 8.75;
         double pricePerCarton = 175;
         long unitsPerCarton = 20;
+        double pricePerUnit = ProductCostCalculatorUtil.getCalculatedPricePerUnit(pricePerCarton, unitsPerCarton);
         long numberOfProductUnits = 25;
 
         /*
@@ -104,7 +104,6 @@ public class PriceEngineControllerTest {
         ProvisionProductRequest provisionProductRequest = new ProvisionProductRequest();
         provisionProductRequest.setName("test-product-2");
         provisionProductRequest.setCategory("category2");
-        provisionProductRequest.setPricePerUnit(pricePerUnit);
         provisionProductRequest.setPricePerCarton(pricePerCarton);
         provisionProductRequest.setUnitsPerCarton(unitsPerCarton);
 

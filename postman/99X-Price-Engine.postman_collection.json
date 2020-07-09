@@ -31,7 +31,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n   \"name\":\"Penguin-ears\",\n   \"category\":\"Jewellary\",\n   \"pricePerUnit\":8.75,\n   \"pricePerCarton\":175,\n   \"unitsPerCarton\": 20\n}",
+					"raw": "{\n   \"name\":\"Penguin-ears\",\n   \"category\":\"Jewellary\",\n   \"pricePerCarton\":175,\n   \"unitsPerCarton\": 20\n}",
 					"options": {
 						"raw": {
 							"language": "json"
